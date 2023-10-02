@@ -1,0 +1,29 @@
+{% extends 'book_app/base.html' %}
+
+{% load static %}
+
+{% block additional %}
+    <link rel="stylesheet" href="{% static 'book_app/css/paginator.css' %}">
+{% endblock %}
+
+{% block title %} {{title}} {% endblock %}
+
+
+{% block content %}
+{% include 'includes/navbar.html' %}
+<br>
+
+<form action="{% url 'book-list' %}" method="get">
+    Поиск по названию книги <input name="name" type="text" placeholder="Search...">
+</form>
+<br>
+<h5>Количество книг: {{count_book.title__count}}</h5>
+
+<h2>Книги:</h2>
+<ul>
+    {% for item in book %}
+        <li><a href="{% url 'one_book' pk=item.id %}">{{ item.title }}</a></li>
+    {% endfor %}
+</ul>
+{% include 'includes/paginator.html' %}
+{% endblock %}

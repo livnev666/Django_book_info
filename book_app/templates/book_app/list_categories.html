@@ -1,0 +1,32 @@
+{% extends 'book_app/base.html' %}
+
+{% load static %}
+
+{% block additional %}
+    <link rel="stylesheet" href="{% static 'book_app/css/paginator.css' %}">
+{% endblock %}
+
+{% block title %} {{title}} {% endblock %}
+
+
+{% block content %}
+{% include 'includes/navbar.html' %}
+<br>
+
+<form action="{% url 'categories' %}" method="get">
+    Поиск по категориям <input name="name" type="text" placeholder="Search...">
+</form>
+<br>
+<h5>Количество категорий: {{count_cat.categories__count}}</h5>
+<h2>Категории:</h2>
+
+<ul>
+    {% for item in cat %}
+
+        <li><a href="{% url 'cat-id' cat_id=item.id %}">{{ item.categories }}</a></li>
+
+    {% endfor %}
+</ul>
+
+{% include 'includes/paginator.html' %}
+{% endblock %}

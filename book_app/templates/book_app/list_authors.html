@@ -1,0 +1,28 @@
+{% extends 'book_app/base.html' %}
+
+{% load static %}
+
+{% block additional %}
+    <link rel="stylesheet" href="{% static 'book_app/css/paginator.css' %}">
+{% endblock %}
+
+
+{% block title %} {{title}} {% endblock %}
+
+
+{% block content %}
+{% include 'includes/navbar.html' %}
+<br>
+
+<form action="{% url 'authors-list' %}" method="get">
+    Поиск по авторам <input name="name" type="text" placeholder="Search...">
+</form>
+
+<h2>Авторы:</h2>
+<ul>
+    {% for item in authors %}
+        <li><a href="{% url 'one_book' pk=item.id %}">{{ item.authors }}</a></li>
+    {% endfor %}
+</ul>
+{% include 'includes/paginator.html' %}
+{% endblock %}

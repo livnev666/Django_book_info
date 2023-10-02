@@ -1,0 +1,60 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %} Все о книге {{one_book.title}} {% endblock %}
+
+{% block content %}
+
+    {% include 'includes/navbar.html' %}
+    <hr>
+    <h2>Книга: </h2>
+    <h4>Наименование: {{one_book.title}}</h4>
+    <h4>Краткое описание:</h4> <p>{{one_book.shortDescription}}</p>
+    <h4>Полное описание:</h4> <p>{{one_book.longDescription}}</p>
+    <h4>Количество страниц - {{one_book.pageCount}}</h4>
+    <h5>Артикул - {{one_book.isbn}}</h5>
+    {% if one_book.thumbnailUrl %}
+        <p><img src="{{one_book.thumbnailUrl.url}}" alt="" height="400" width="300"></p>
+    {% endif %}
+    {% if one_book.is_published %}
+        <h5>Опубликовано</h5>
+    {% else %}
+        <h5>Нет данной книги</h5>
+    {% endif %}
+    <hr>
+    <br>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for i in form %}
+          <div class="form-style">
+            {{i.label_tag}}
+            {{i.errors}}
+            {{i}}
+          </div>
+        {% endfor %}
+        <input type="submit" value="Добавить комментарий">
+    </form>
+    <h5>Количество комментариев: {{one_book.commentuser_book.all.count}}</h5>
+    {% for i in one_book.commentuser_book.all %}
+        <br>
+        <p>Имя пользователя: {{i.name_user}}</p>
+        <p>Комментарий: {{i.comment_user}}</p>
+        <p>Комментарий опубликован: << {{i.create_date}} >></p>
+    {% endfor %}
+    <br>
+    <h3>Список категорий: </h3>
+    {% for i in one_book.categories.all %}
+        {% if i.id == one_book.id %}
+            <li><a href="{% url 'cat-id' cat_id=i.id %}">{{i.categories}}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% include 'includes/paginator.html' %}
+
+    <h3>Список авторов:</h3>
+    {% for i in one_book.authors.all %}
+        {% if i.id == one_book.id %}
+            <li>{{i.authors}}</li>
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}

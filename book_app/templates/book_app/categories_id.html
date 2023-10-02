@@ -1,0 +1,27 @@
+{% extends 'book_app/base.html' %}
+
+
+{% block title %} {{title}} {% endblock %}
+
+
+{% block content %}
+{% include 'includes/navbar.html' %}
+<br>
+<h2>Категория:</h2>
+
+{% if cat_cat_id.id != book_id.id %}
+    <p>{{cat_cat_id.categories}}</p>
+{% endif %}
+
+<h2>Книги:</h2>
+
+{% for i in book_id %}
+    {% if i.id == cat_cat_id.id %}
+        <p><a href="{% url 'one_book' pk=i.id %}">{{i.title}}</a></p>
+    {% endif %}
+
+{% endfor %}
+
+
+
+{% endblock %}
